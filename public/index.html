@@ -1,0 +1,169 @@
+                        
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #chat-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 80%;
+        }
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+            background-color: #222;
+            border-radius: 10px;
+        }
+        #messages li {
+            position: relative;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            word-wrap: break-word;
+            max-width: 75%;
+            display: flex;
+            align-items: flex-start; /* Alinha itens à esquerda */
+        }
+        #messages li.sent {
+            background: #004d4d; /* Alterado para um tom escuro */
+            color: #fff;
+            margin-left: auto;
+            text-align: right;
+        }
+        #messages li.received {
+            background: #555;
+            color: #fff;
+        }
+        .username {
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #999;
+            align-self: flex-start; /* Alinha à esquerda */
+            margin-right: 10px; /* Espaçamento à direita */
+        }
+        #form {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid #444;
+            padding: 10px;
+            background: #333;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        #form input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            width: calc(100% - 22px); /* To adjust padding and border */
+            background-color: #222;
+            color: #fff;
+        }
+        #input {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        #sendButton {
+            padding: 10px 20px;
+            border: none;
+            background-color: #002f36; /* Alterado para a cor do cabeçalho */
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            align-self: flex-end;
+        }
+        #sendButton:hover {
+            background-color: #005f6b; /* Alterado para um tom mais escuro */
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff; /* Alterado para branco */
+        }
+        .header {
+            background-color: #002f36;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #fff;
+            margin: 0;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div class="header">
+            <h1>Chat App</h1>
+        </div>
+        <ul id="messages"></ul>
+        <form id="form" action="">
+            <input id="name" placeholder="Enter your name" autocomplete="off" required />
+            <input id="input" placeholder="Type your message..." autocomplete="off" required />
+            <button id="sendButton">Send</button>
+        </form>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        var form = document.getElementById('form');
+        var nameInput = document.getElementById('name');
+        var input = document.getElementById('input');
+        var messages = document.getElementById('messages');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (input.value && nameInput.value) {
+                var message = {
+                    name: nameInput.value,
+                    text: input.value
+                };
+                socket.emit('chat message', message);
+                input.value = '';
+            }
+        });
+
+        socket.on('chat message', function(msg) {
+            var item = document.createElement('li');
+            
+            var username = document.createElement('div');
+            username.className = 'username';
+            username.textContent = msg.name;
+            item.appendChild(username);
+            
+            var text = document.createElement('span');
+            text.textContent = msg.text;
+            item.appendChild(text);
+            
+            item.className = msg.name === nameInput.value ? 'sent' : 'received';
+            messages.appendChild(item);
+            messages.scrollTop = messages.scrollHeight;
+        });
+    </script>
+</body>
+</html>
+
+             
