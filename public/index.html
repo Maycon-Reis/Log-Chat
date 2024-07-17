@@ -1,4 +1,3 @@
-                        
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,10 +41,10 @@
             word-wrap: break-word;
             max-width: 75%;
             display: flex;
-            align-items: flex-start; /* Alinha itens à esquerda */
+            align-items: flex-start;
         }
         #messages li.sent {
-            background: #004d4d; /* Alterado para um tom escuro */
+            background: #004d4d;
             color: #fff;
             margin-left: auto;
             text-align: right;
@@ -58,8 +57,8 @@
             font-size: 0.8em;
             font-weight: bold;
             color: #999;
-            align-self: flex-start; /* Alinha à esquerda */
-            margin-right: 10px; /* Espaçamento à direita */
+            align-self: flex-start;
+            margin-right: 10px;
         }
         #form {
             display: flex;
@@ -75,7 +74,7 @@
             padding: 10px;
             border: 1px solid #444;
             border-radius: 5px;
-            width: calc(100% - 22px); /* To adjust padding and border */
+            width: calc(100% - 22px);
             background-color: #222;
             color: #fff;
         }
@@ -86,19 +85,19 @@
         #sendButton {
             padding: 10px 20px;
             border: none;
-            background-color: #002f36; /* Alterado para a cor do cabeçalho */
+            background-color: #002f36;
             color: #fff;
             border-radius: 5px;
             cursor: pointer;
             align-self: flex-end;
         }
         #sendButton:hover {
-            background-color: #005f6b; /* Alterado para um tom mais escuro */
+            background-color: #005f6b;
         }
         h1 {
             text-align: center;
             margin-bottom: 20px;
-            color: #fff; /* Alterado para branco */
+            color: #fff;
         }
         .header {
             background-color: #002f36;
@@ -126,9 +125,10 @@
             <button id="sendButton">Send</button>
         </form>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="https://log-chat-4x66a54j8-maycon-reis-projects.vercel.app/socket.io/socket.io.js"></script>
     <script>
-        var socket = io();
+        var socket = io('https://log-chat-4x66a54j8-maycon-reis-projects.vercel.app');
         var form = document.getElementById('form');
         var nameInput = document.getElementById('name');
         var input = document.getElementById('input');
@@ -165,5 +165,3 @@
     </script>
 </body>
 </html>
-
-             
